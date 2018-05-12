@@ -1,0 +1,19 @@
+{
+  "name": "naver-id-login",
+  "version": "1.0.0",
+  "description": "Naver ID Login",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "naver",
+    "naver-id",
+    "naver-id-login",
+    "naver-login",
+    "naver-sign-in",
+    "naver-signin"
+  ],
+  "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
+  "license": "ISC"
+}
