@@ -1,6 +1,6 @@
 {
   "name": "naver-id-login",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Naver ID Login",
   "main": "index.js",
   "scripts": {
