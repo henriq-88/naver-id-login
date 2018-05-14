@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from 'util'
+import util from './util'
 
 export const NaverAuth = function () {
   const TRUESTED_URL = 'SOMEURL'
