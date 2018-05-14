@@ -11,5 +11,5 @@ export const parseParams = function (paramString) {
 }
 
 export const parameterize = function (params) {
-  return Object.entries(params).map(([key, val]) => `${key}=${encodeURIComponent(val)}`).join('&')
+  return Object.entries(params).map(([key, val]) => key + '=' + encodeURIComponent(val)).join('&')
 }

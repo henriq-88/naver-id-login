@@ -4,7 +4,7 @@ const util = require('./util')
 export const NaverAuth = function () {
   this.login = function (clientId, callbackURL) {
     if (!clientId || !callbackURL) {
-      console.error(`invalid client id and/or callback url "${clientId}", "${callbackURL}"`)
+      console.error('invalid client id and/or callback url ' + clientId + ', ' + callbackURL)
       return
     }
 
@@ -18,10 +18,10 @@ export const NaverAuth = function () {
       response_type: responseType,
       client_id: clientId,
       redirect_uri: callbackURL,
-      state
+      state: state
     }
     const paramString = util.parameterize(params)
-    const url = `${baseURL}?${paramString}`
+    const url = baseURL + '?' + paramString
 
     const popupWindow = window.open(url, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550')
 
@@ -49,16 +49,22 @@ export const NaverAuth = function () {
 
   this.getProfile = function (token) {
     if (!token) {
-      console.error(`invalid token: "${token}"`)
+      console.error('invalid token: ' + token)
       return
     }
     const baseURL = 'https://openapi.naver.com/v1/nid/getUserProfile.json'
     const responseType = 'json'
-    
-    const url = `${baseURL}`
+    const url = baseURL
     const params = {
       access_token: token,
       response_type: responseType
+    }
+    const headers = {
+      'Authorization': token.token_type + ' ' + token.access_token
+    }
+    const config = {
+      params: params,
+      headers: headers
     }
     return axios.get(url, { params }).then(resp => {
       const user = resp.data.response
