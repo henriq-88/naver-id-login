@@ -56,17 +56,18 @@ export const NaverAuth = function () {
     const responseType = 'json'
     const url = baseURL
     const params = {
-      access_token: token,
+      access_token: token.access_token,
       response_type: responseType
     }
+    const tokenType = token.token_type.char(0).toUpperCase() + token.token_type.slice(1)
     const headers = {
-      'Authorization': token.token_type + ' ' + token.access_token
+      'Authorization': tokenType + ' ' + token.access_token
     }
     const config = {
       params: params,
       headers: headers
     }
-    return axios.get(url, { params }).then(resp => {
+    return axios.get(url, config).then(resp => {
       const user = resp.data.response
       return user
     })
