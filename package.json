@@ -2,13 +2,14 @@
   "name": "naver-id-login",
   "version": "1.0.1",
   "description": "Naver ID Login",
+  "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel ./*.es7 --retain-lines -d ./"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/henriq-88/naver-id-login"
+    "type": "git",
+    "url": "https://github.com/henriq-88/naver-id-login"
   },
   "keywords": [
     "naver",
@@ -18,6 +19,12 @@
     "naver-sign-in",
     "naver-signin"
   ],
-  "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
-  "license": "ISC"
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-runtime": "^6.26.0"
+  }
 }

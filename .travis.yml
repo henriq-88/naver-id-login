@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "6.11.5"
+script:
+  - echo "Deploying!"
+install:
+  - npm install
+deploy:
+  provider: npm
+  email: "henrik@qap.red"
+  api_key: $NPM_TOKEN
