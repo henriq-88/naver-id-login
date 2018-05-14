@@ -1,6 +1,6 @@
 {
   "name": "naver-id-login",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Naver ID Login",
   "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
   "main": "index.js",
