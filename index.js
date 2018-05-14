@@ -59,7 +59,7 @@ export const NaverAuth = function () {
       access_token: token.access_token,
       response_type: responseType
     }
-    const tokenType = token.token_type.char(0).toUpperCase() + token.token_type.slice(1)
+    const tokenType = token.token_type.charAt(0).toUpperCase() + token.token_type.slice(1)
     const headers = {
       'Authorization': tokenType + ' ' + token.access_token
     }
