@@ -2,8 +2,6 @@ const axios = require('axios')
 const util = require('./util')
 
 export const NaverAuth = function () {
-  const TRUESTED_URL = 'SOMEURL'
-
   this.login = function (clientId, callbackURL) {
     if (!clientId || !callbackURL) {
       console.error(`invalid client id and/or callback url "${clientId}", "${callbackURL}"`)
@@ -32,7 +30,7 @@ export const NaverAuth = function () {
         if (event.source !== popupWindow) {
           return
         }
-        if (event.origin !== 'TRUESTED_URL') {
+        if (event.origin !== window.location.origin) {
           return
         }
         window.removeEventListener('message', receiveMessage, false)
@@ -45,7 +43,7 @@ export const NaverAuth = function () {
 
   this.handleTokenResponse = function () {
     const params = util.parseParams(window.location.hash)
-    window.opener.postMessage(params, TRUESTED_URL)
+    window.opener.postMessage(params, window.location.origin)
     window.close()
   }
 
