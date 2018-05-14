@@ -1,5 +1,5 @@
-import axios from 'axios'
-import util from './util'
+const axios = require('axios')
+const util = require('./util')
 
 export const NaverAuth = function () {
   const TRUESTED_URL = 'SOMEURL'
@@ -22,7 +22,7 @@ export const NaverAuth = function () {
       redirect_uri: encodeURIComponent(callbackURL),
       state
     }
-    const paramString = util.parameterize(params)
+    const paramString = parameterize(params)
     const url = `${baseURL}?${paramString}`
 
     const popupWindow = window.open(url, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550')
@@ -44,7 +44,7 @@ export const NaverAuth = function () {
   }
 
   this.handleTokenResponse = function () {
-    const params = util.parseParams(window.location.hash)
+    const params = parseParams(window.location.hash)
     window.opener.postMessage(params, TRUESTED_URL)
     window.close()
   }
