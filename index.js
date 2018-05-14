@@ -22,7 +22,7 @@ export const NaverAuth = function () {
       redirect_uri: encodeURIComponent(callbackURL),
       state
     }
-    const paramString = parameterize(params)
+    const paramString = util.parameterize(params)
     const url = `${baseURL}?${paramString}`
 
     const popupWindow = window.open(url, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550')
@@ -44,7 +44,7 @@ export const NaverAuth = function () {
   }
 
   this.handleTokenResponse = function () {
-    const params = parseParams(window.location.hash)
+    const params = util.parseParams(window.location.hash)
     window.opener.postMessage(params, TRUESTED_URL)
     window.close()
   }

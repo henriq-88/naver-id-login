@@ -4,9 +4,6 @@
   "description": "Naver ID Login",
   "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
   "main": "index.js",
-  "scripts": {
-    "build": "babel ./*.es7 --retain-lines -d ./"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/henriq-88/naver-id-login"
