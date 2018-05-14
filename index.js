@@ -19,7 +19,7 @@ export const NaverAuth = function () {
     const params = {
       response_type: responseType,
       client_id: clientId,
-      redirect_uri: encodeURIComponent(callbackURL),
+      redirect_uri: callbackURL,
       state
     }
     const paramString = util.parameterize(params)
