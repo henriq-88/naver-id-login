@@ -1,4 +1,4 @@
-const axios = require('axios')
+const $ = require('./jquery-only-ajax')
 const util = require('./util')
 
 export const NaverAuth = function () {
@@ -59,17 +59,17 @@ export const NaverAuth = function () {
       access_token: token.access_token,
       response_type: responseType
     }
-    const tokenType = token.token_type.charAt(0).toUpperCase() + token.token_type.slice(1)
-    const headers = {
-      'Authorization': tokenType + ' ' + token.access_token
-    }
-    const config = {
-      params: params,
-      headers: headers
-    }
-    return axios.get(url, config).then(resp => {
-      const user = resp.data.response
-      return user
+    
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: url,
+        type: 'GET',
+        data: params,
+        dataType: 'jsonp',
+        jsonp: 'oauth_callback',
+        success: resolve,
+        error: reject
+      })
     })
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "naver-id-login",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Naver ID Login",
   "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
   "main": "index.js",
@@ -19,8 +19,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.18.0"
-  }
+  "license": "ISC"
 }
