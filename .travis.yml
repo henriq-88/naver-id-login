@@ -1,11 +1,12 @@
 language: node_js
 node_js:
-  - "6.11.5"
+- 6.11.5
 script:
-  - echo "Deploying!"
+- echo "Deploying!"
 install:
-  - npm install
+- npm install
 deploy:
   provider: npm
-  email: "henrik@qap.red"
-  api_key: $NPM_TOKEN
+  email: henrik@qap.red
+  api_key:
+    secure: xw8MTcO9Qa0wPHwbJXd2RE6m+rXsSM1a7ilfZhqwcm8VCY6k+c/4ZX7EnmIHuY6IdV8t3tJVx2x/Wd6hne8btw3w6/xJwruagS0T3Cb8Y0jPhqhxG3bH38GgsTI32nAq6gYxoRcTvSRaNjj7lqcoDz1ORJKADow9uOmMhAqTdeMq4EiaH3p1UMPbxClMIkT3fXSiyxuxvPaGy3jL+co8r/rdVDaPrREiD854z3/RYgQur+bCy9hJ2ZZYhFKuhT4EQThuwlD0GWXUz8L8Q4jLOJGuh0kiQT8P9Ktqkdtrs6IQextz4E+mklQ+VZn41xB7/gkcCHbYRbmSyHJR2NWVkduTjbE8i4ptab4Xha2mO7oP3OGviY1G+FggYJEvMfOC1iBUuOyl6licULV5QCKU/5/tCvK7l2D/+RjZXlFmxAF/O/VugS0+DU97pqY8rwOuJ9m06aSpqiEly6GjC0PloRU0S6QHojx0q5WF3vmJGr6THBCpnICK1zz5/UUR6m1miz0CxlTkC25408JKAjgX5bADcLX2/pscSTHrzUEBcogHKgvw+vhj6p64T6NzQ+F0g5Pa4DgZpNwDyPzlPvpd9BS1blZwoyVvhb4UX7WYUMcM4D9HZc9x53EPjoCFUXPesfA4jsCvCDv48fV5l9sbfQFLpJfEpbhmowC+di/0qj8=
