@@ -4,6 +4,7 @@ node_js:
 script:
 - echo "Deploying!"
 install:
+- npm install -g npx
 - npm install
 before_deploy:
 - npx babel src -d .
