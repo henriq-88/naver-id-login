@@ -11,11 +11,7 @@ var util = require('./util');
 
 var NaverAuth = function NaverAuth() {
   this.login = function (clientId, callbackURL) {
-    if (!clientId || !callbackURL) {
-      console.error('invalid client id and/or callback url ' + clientId + ', ' + callbackURL);
-      return;
-    }
-
+    if (!clientId || !callbackURL) return Promise.reject("invalid client id and/or callback url (clientId: ".concat(clientId, ", callbackURL: ").concat(callbackURL, ")"));
     var baseURL = 'https://nid.naver.com/oauth2.0/authorize';
     var responseType = 'token';
     var state = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -32,16 +28,15 @@ var NaverAuth = function NaverAuth() {
     var paramString = util.parameterize(params);
     var url = baseURL + '?' + paramString;
     var popupWindow = window.open(url, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550');
-    return new Promise(function (resolve) {
+    var windowHandler = {
+      interval: null
+    };
+    var windowCloserPromise = util.windowCloserListener(popupWindow, windowHandler);
+    var tokenHandlerPromise = new Promise(function (resolve) {
       function receiveMessage(event) {
-        if (event.source !== popupWindow) {
-          return;
-        }
-
-        if (event.origin !== window.location.origin) {
-          return;
-        }
-
+        if (event.source !== popupWindow) return;
+        if (event.origin !== window.location.origin) return;
+        clearInterval(windowHandler.interval);
         window.removeEventListener('message', receiveMessage, false);
         var tokenData = event.data;
         resolve(tokenData);
@@ -49,6 +44,7 @@ var NaverAuth = function NaverAuth() {
 
       window.addEventListener('message', receiveMessage, false);
     });
+    return Promise.race([windowCloserPromise, tokenHandlerPromise]);
   };
 
   this.handleTokenResponse = function () {

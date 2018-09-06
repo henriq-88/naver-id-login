@@ -13,3 +13,16 @@ export const parseParams = function (paramString) {
 export const parameterize = function (params) {
   return Object.entries(params).map(([key, val]) => key + '=' + encodeURIComponent(val)).join('&')
 }
+
+export const windowCloserListener = (popupWindow, windowHandler) => {
+  return new Promise((resolve, reject) => {
+    windowHandler.interval = setInterval(() => {
+      if (popupWindow.closed) {
+        setTimeout(() => {
+          clearInterval(windowHandler.interval)
+          return reject('popup-closed')
+        }, 100)
+      }
+    }, 100)
+  })
+}

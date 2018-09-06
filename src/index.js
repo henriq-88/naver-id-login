@@ -3,10 +3,7 @@ const util = require('./util')
 
 export const NaverAuth = function () {
   this.login = function (clientId, callbackURL) {
-    if (!clientId || !callbackURL) {
-      console.error('invalid client id and/or callback url ' + clientId + ', ' + callbackURL)
-      return
-    }
+    if (!clientId || !callbackURL) return Promise.reject(`invalid client id and/or callback url (clientId: ${clientId}, callbackURL: ${callbackURL})`)
 
     const baseURL = 'https://nid.naver.com/oauth2.0/authorize'
     const responseType = 'token'
@@ -18,27 +15,28 @@ export const NaverAuth = function () {
       response_type: responseType,
       client_id: clientId,
       redirect_uri: callbackURL,
-      state: state
+      state
     }
     const paramString = util.parameterize(params)
     const url = baseURL + '?' + paramString
 
     const popupWindow = window.open(url, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550')
 
-    return new Promise(resolve => {
+    const windowHandler = { interval: null }
+    const windowCloserPromise = util.windowCloserListener(popupWindow, windowHandler)
+
+    const tokenHandlerPromise = new Promise(resolve => {
       function receiveMessage (event) {
-        if (event.source !== popupWindow) {
-          return
-        }
-        if (event.origin !== window.location.origin) {
-          return
-        }
+        if (event.source !== popupWindow) return
+        if (event.origin !== window.location.origin) return
+        clearInterval(windowHandler.interval)
         window.removeEventListener('message', receiveMessage, false)
         const tokenData = event.data
         resolve(tokenData)
       }
       window.addEventListener('message', receiveMessage, false)
     })
+    return Promise.race([windowCloserPromise, tokenHandlerPromise])
   }
 
   this.handleTokenResponse = function () {

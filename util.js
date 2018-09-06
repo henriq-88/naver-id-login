@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parameterize = exports.parseParams = void 0;
+exports.windowCloserListener = exports.parameterize = exports.parseParams = void 0;
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -40,3 +40,18 @@ var parameterize = function parameterize(params) {
 };
 
 exports.parameterize = parameterize;
+
+var windowCloserListener = function windowCloserListener(popupWindow, windowHandler) {
+  return new Promise(function (resolve, reject) {
+    windowHandler.interval = setInterval(function () {
+      if (popupWindow.closed) {
+        setTimeout(function () {
+          clearInterval(windowHandler.interval);
+          return reject('popup-closed');
+        }, 100);
+      }
+    }, 100);
+  });
+};
+
+exports.windowCloserListener = windowCloserListener;
