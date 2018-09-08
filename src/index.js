@@ -1,14 +1,18 @@
 const $ = require('./jquery-only-ajax')
 const util = require('./util')
 
-export const NaverAuth = function () {
-  this.login = function (clientId, callbackURL) {
-    if (!clientId || !callbackURL) return Promise.reject(`invalid client id and/or callback url (clientId: ${clientId}, callbackURL: ${callbackURL})`)
+export default function () {
+  this.token = null
+
+  this.login = async function (clientId, callbackURL) {
+    if (!clientId) return Promise.reject({ code: 'invalid-client-id', message: `Invalid client id: '${clientId}'` })
+    if (!callbackURL) return Promise.reject({ code: 'invalid-callback-url', message: `Invalid callback url: '${callbackURL}'`})
 
     const baseURL = 'https://nid.naver.com/oauth2.0/authorize'
     const responseType = 'token'
     const state = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8)
+      const r = Math.random()*16|0
+      const v = c === 'x' ? r : (r&0x3|0x8)
       return v.toString(16) 
     })
     const params = {
@@ -18,9 +22,14 @@ export const NaverAuth = function () {
       state
     }
     const paramString = util.parameterize(params)
-    const url = baseURL + '?' + paramString
+    const url = `${baseURL}?${paramString}`
 
-    const popupWindow = window.open(url, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550')
+    const width = 600
+    const height = 550
+    const top = window.screen.height/2 - height/2
+    const left = window.screen.width/2 - width/2
+
+    const popupWindow = window.open(url, 'naverloginpop', `titlebar=1, resizable=1, scrollbars=yes, width=${width}, height=${height}, top=${top}, left=${left}`)
 
     const windowHandler = { interval: null }
     const windowCloserPromise = util.windowCloserListener(popupWindow, windowHandler)
@@ -31,12 +40,15 @@ export const NaverAuth = function () {
         if (event.origin !== window.location.origin) return
         clearInterval(windowHandler.interval)
         window.removeEventListener('message', receiveMessage, false)
-        const tokenData = event.data
-        resolve(tokenData)
+        resolve(event.data)
       }
       window.addEventListener('message', receiveMessage, false)
     })
-    return Promise.race([windowCloserPromise, tokenHandlerPromise])
+
+    const token = await Promise.race([windowCloserPromise, tokenHandlerPromise])
+    this.token = token
+
+    return Promise.resolve()
   }
 
   this.handleTokenResponse = function () {
@@ -45,11 +57,10 @@ export const NaverAuth = function () {
     window.close()
   }
 
-  this.getProfile = function (token) {
-    if (!token) {
-      console.error('invalid token: ' + token)
-      return
-    }
+  this.getProfile = function () {
+    const { token } = this
+    if (!token) return Promise.reject({ code: 'invalid-token', message: `Invalid token: '${token}'. login() to retreive a new token.` })
+
     const baseURL = 'https://openapi.naver.com/v1/nid/getUserProfile.json'
     const responseType = 'json'
     const url = baseURL

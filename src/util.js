@@ -20,7 +20,7 @@ export const windowCloserListener = (popupWindow, windowHandler) => {
       if (popupWindow.closed) {
         setTimeout(() => {
           clearInterval(windowHandler.interval)
-          return reject('popup-closed')
+          return reject({ code: 'popup-closed', message: 'The popup has been closed by the user before finalizing the operation' })
         }, 100)
       }
     }, 100)
