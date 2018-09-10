@@ -66,8 +66,8 @@ function _default() {
               };
               paramString = util.parameterize(params);
               url = "".concat(baseURL, "?").concat(paramString);
-              width = 600;
-              height = 550;
+              width = 460;
+              height = 629;
               top = window.screen.height / 2 - height / 2;
               left = window.screen.width / 2 - width / 2;
               popupWindow = window.open(url, 'naverloginpop', "titlebar=1, resizable=1, scrollbars=yes, width=".concat(width, ", height=").concat(height, ", top=").concat(top, ", left=").concat(left));

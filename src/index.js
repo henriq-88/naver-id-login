@@ -24,8 +24,8 @@ export default function () {
     const paramString = util.parameterize(params)
     const url = `${baseURL}?${paramString}`
 
-    const width = 600
-    const height = 550
+    const width = 460
+    const height = 629
     const top = window.screen.height/2 - height/2
     const left = window.screen.width/2 - width/2
 
