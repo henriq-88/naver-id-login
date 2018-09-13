@@ -2,8 +2,6 @@ const $ = require('./jquery-only-ajax')
 const util = require('./util')
 
 export default function () {
-  this.token = null
-
   this.login = async function (clientId, callbackURL) {
     if (!clientId) return Promise.reject({ code: 'invalid-client-id', message: `Invalid client id: '${clientId}'` })
     if (!callbackURL) return Promise.reject({ code: 'invalid-callback-url', message: `Invalid callback url: '${callbackURL}'`})
@@ -45,10 +43,7 @@ export default function () {
       window.addEventListener('message', receiveMessage, false)
     })
 
-    const token = await Promise.race([windowCloserPromise, tokenHandlerPromise])
-    this.token = token
-
-    return Promise.resolve()
+    return Promise.race([windowCloserPromise, tokenHandlerPromise])
   }
 
   this.handleTokenResponse = function () {
@@ -57,8 +52,7 @@ export default function () {
     window.close()
   }
 
-  this.getProfile = function () {
-    const { token } = this
+  this.getProfile = function (token) {
     if (!token) return Promise.reject({ code: 'invalid-token', message: `Invalid token: '${token}'. login() to retreive a new token.` })
 
     const baseURL = 'https://openapi.naver.com/v1/nid/getUserProfile.json'

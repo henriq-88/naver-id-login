@@ -16,15 +16,13 @@ var $ = require('./jquery-only-ajax');
 var util = require('./util');
 
 function _default() {
-  this.token = null;
-
   this.login =
   /*#__PURE__*/
   function () {
     var _ref = (0, _asyncToGenerator2.default)(
     /*#__PURE__*/
     _regenerator.default.mark(function _callee(clientId, callbackURL) {
-      var baseURL, responseType, state, params, paramString, url, width, height, top, left, popupWindow, windowHandler, windowCloserPromise, tokenHandlerPromise, token;
+      var baseURL, responseType, state, params, paramString, url, width, height, top, left, popupWindow, windowHandler, windowCloserPromise, tokenHandlerPromise;
       return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -86,15 +84,9 @@ function _default() {
 
                 window.addEventListener('message', receiveMessage, false);
               });
-              _context.next = 20;
-              return Promise.race([windowCloserPromise, tokenHandlerPromise]);
+              return _context.abrupt("return", Promise.race([windowCloserPromise, tokenHandlerPromise]));
 
-            case 20:
-              token = _context.sent;
-              this.token = token;
-              return _context.abrupt("return", Promise.resolve());
-
-            case 23:
+            case 19:
             case "end":
               return _context.stop();
           }
@@ -113,8 +105,7 @@ function _default() {
     window.close();
   };
 
-  this.getProfile = function () {
-    var token = this.token;
+  this.getProfile = function (token) {
     if (!token) return Promise.reject({
       code: 'invalid-token',
       message: "Invalid token: '".concat(token, "'. login() to retreive a new token.")
