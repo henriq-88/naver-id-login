@@ -91,7 +91,7 @@ function _default() {
               return _context.stop();
           }
         }
-      }, _callee, this);
+      }, _callee);
     }));
 
     return function (_x, _x2) {
@@ -105,16 +105,16 @@ function _default() {
     window.close();
   };
 
-  this.getProfile = function (token) {
-    if (!token) return Promise.reject({
+  this.getProfile = function (accessToken) {
+    if (!accessToken) return Promise.reject({
       code: 'invalid-token',
-      message: "Invalid token: '".concat(token, "'. login() to retreive a new token.")
+      message: "Invalid access token: '".concat(accessToken, "'. login() to retreive a new access token.")
     });
     var baseURL = 'https://openapi.naver.com/v1/nid/getUserProfile.json';
     var responseType = 'json';
     var url = baseURL;
     var params = {
-      access_token: token.access_token,
+      access_token: accessToken,
       response_type: responseType
     };
     return new Promise(function (resolve, reject) {

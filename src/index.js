@@ -52,14 +52,14 @@ export default function () {
     window.close()
   }
 
-  this.getProfile = function (token) {
-    if (!token) return Promise.reject({ code: 'invalid-token', message: `Invalid token: '${token}'. login() to retreive a new token.` })
+  this.getProfile = function (accessToken) {
+    if (!accessToken) return Promise.reject({ code: 'invalid-token', message: `Invalid access token: '${accessToken}'. login() to retreive a new access token.` })
 
     const baseURL = 'https://openapi.naver.com/v1/nid/getUserProfile.json'
     const responseType = 'json'
     const url = baseURL
     const params = {
-      access_token: token.access_token,
+      access_token: accessToken,
       response_type: responseType
     }
     
