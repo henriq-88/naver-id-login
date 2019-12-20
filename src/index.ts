@@ -1,8 +1,8 @@
-const $ = require('./jquery-only-ajax')
-const util = require('./util')
+import $ from '@/jquery-only-ajax'
+import { parameterize, parseParams, windowCloserListener } from '@/util'
 
-export default function () {
-  this.login = async function (clientId, callbackURL) {
+export default class NaverAuth {
+  async login (clientId: string, callbackURL: string) {
     if (!clientId) return Promise.reject({ code: 'invalid-client-id', message: `Invalid client id: '${clientId}'` })
     if (!callbackURL) return Promise.reject({ code: 'invalid-callback-url', message: `Invalid callback url: '${callbackURL}'`})
 
@@ -19,7 +19,7 @@ export default function () {
       redirect_uri: callbackURL,
       state
     }
-    const paramString = util.parameterize(params)
+    const paramString = parameterize(params)
     const url = `${baseURL}?${paramString}`
 
     const width = 460
@@ -28,12 +28,13 @@ export default function () {
     const left = window.screen.width/2 - width/2
 
     const popupWindow = window.open(url, 'naverloginpop', `titlebar=1, resizable=1, scrollbars=yes, width=${width}, height=${height}, top=${top}, left=${left}`)
+    if (!popupWindow) return Promise.reject({ code: 'popup-error', message: `Popup could not be opened` })
 
-    const windowHandler = { interval: null }
-    const windowCloserPromise = util.windowCloserListener(popupWindow, windowHandler)
+    const windowHandler = { interval: 0 }
+    const windowCloserPromise = windowCloserListener(popupWindow, windowHandler)
 
     const tokenHandlerPromise = new Promise(resolve => {
-      function receiveMessage (event) {
+      function receiveMessage (event: MessageEvent) {
         if (event.source !== popupWindow) return
         if (event.origin !== window.location.origin) return
         clearInterval(windowHandler.interval)
@@ -46,13 +47,13 @@ export default function () {
     return Promise.race([windowCloserPromise, tokenHandlerPromise])
   }
 
-  this.handleTokenResponse = function () {
-    const params = util.parseParams(window.location.hash)
+  handleTokenResponse () {
+    const params = parseParams(window.location.hash)
     window.opener.postMessage(params, window.location.origin)
     window.close()
   }
 
-  this.getProfile = function (accessToken) {
+  getProfile (accessToken: string) {
     if (!accessToken) return Promise.reject({ code: 'invalid-token', message: `Invalid access token: '${accessToken}'. login() to retreive a new access token.` })
 
     const baseURL = 'https://openapi.naver.com/v1/nid/getUserProfile.json'
