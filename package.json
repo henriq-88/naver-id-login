@@ -1,13 +1,8 @@
 {
   "name": "naver-id-login",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Naver ID Login",
   "author": "Henrik Wassdahl <henrik@qap.red> (https://qap.red)",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/henriq-88/naver-id-login"
-  },
   "keywords": [
     "naver",
     "naver-id",
@@ -16,16 +11,28 @@
     "naver-sign-in",
     "naver-signin"
   ],
+  "license": "ISC",
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/henriq-88/naver-id-login"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "jsonp": "0.2.1"
+  },
   "devDependencies": {
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.7",
-    "@types/jquery": "^3.3.31",
-    "@typescript-eslint/eslint-plugin": "^2.12.0"
+    "@types/jsonp": "0.2.0",
+    "@typescript-eslint/eslint-plugin": "2.13.0",
+    "@typescript-eslint/parser": "2.13.0",
+    "eslint": "6.8.0",
+    "eslint-plugin-standard": "4.0.1",
+    "typescript": "3.7.4"
   }
 }
